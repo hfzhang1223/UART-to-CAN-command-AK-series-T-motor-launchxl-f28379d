@@ -1,0 +1,54 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --device "F2837xD" --package "F2837xD_337ZWT" --part "F2837xD_337ZWT" --context "CPU1" --product "C2000WARE@4.02.00.00"
+ * @versions {"tool":"1.15.0+2826"}
+ */
+
+/**
+ * Import the modules used in this configuration.
+ */
+const can       = scripting.addModule("/driverlib/can.js", {}, false);
+const can1      = can.addInstance();
+const cputimer  = scripting.addModule("/driverlib/cputimer.js", {}, false);
+const cputimer1 = cputimer.addInstance();
+const sci       = scripting.addModule("/driverlib/sci.js", {}, false);
+const sci1      = sci.addInstance();
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+can1.$name                   = "myCAN0";
+can1.msgObjsUsed             = [1,2];
+can1.enableInterrupt         = true;
+can1.registerInterrupts      = true;
+can1.interruptFlags          = ["CAN_INT_IE0"];
+can1.interruptLine           = ["CAN_GLOBAL_INT_CANINT0"];
+can1.bitRate                 = "1000000";
+can1.can.$assign             = "CANB";
+can1.can.canrxPin.$assign    = "GPIO17";
+can1.can.cantxPin.$assign    = "GPIO12";
+can1.msgObj1.$name           = "msgObj0";
+can1.msgObj1.msgType         = "CAN_MSG_OBJ_TYPE_TX";
+can1.msgObj1.msgLen          = 8;
+can1.msgObj1.intLine         = "1";
+can1.msgObj1.msgID           = 1;
+can1.msgObj2.$name           = "msgObj1";
+can1.msgObj2.flags           = ["CAN_MSG_OBJ_RX_INT_ENABLE"];
+can1.can0Int.enableInterrupt = true;
+
+cputimer1.$name                    = "myCPUTIMER0";
+cputimer1.enableInterrupt          = true;
+cputimer1.registerInterrupts       = true;
+cputimer1.timerPeriod              = 2000000;
+cputimer1.timerPrescaler           = 2;
+cputimer1.timerInt.enableInterrupt = true;
+
+sci1.$name                    = "mySCI0";
+sci1.registerInterrupts       = true;
+sci1.enabledFIFOInterrupts    = ["SCI_INT_RXFF"];
+sci1.rxFifo                   = "SCI_FIFO_RX1";
+sci1.sci.$assign              = "SCIA";
+sci1.sci.scirxdPin.$assign    = "GPIO43";
+sci1.sci.scitxdPin.$assign    = "GPIO42";
+sci1.sciRXInt.enableInterrupt = true;
