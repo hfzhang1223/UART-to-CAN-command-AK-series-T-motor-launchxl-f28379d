@@ -45,7 +45,7 @@ int float_to_uint(float x, float x_min, float x_max, int bits){
     float span = x_max - x_min;
     float offset = x_min;
     if(bits==16){
-        return (int) ((x-offset)*((float)(0b111111111111111))/span);
+        return (int) ((x-offset)*((float)(0b1111111111111111))/span);
     }
     return (int) ((x-offset)*((float)((1<<bits)-1))/span);
     }
@@ -56,7 +56,7 @@ float uint_to_float(int x_int, float x_min, float x_max, int bits){
     float span = x_max - x_min;
     float offset = x_min;
     if(bits==16){
-        return ((float)x_int)*span/((float)(0b111111111111111)) + offset;
+        return ((float)x_int)*span/((float)(0b1111111111111111)) + offset;
     }
     return ((float)x_int)*span/((float)((1<<bits)-1)) + offset;
     }

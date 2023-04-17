@@ -49,7 +49,7 @@
 //
 #include "driverlib.h"
 #include "device.h"
-#include "board.h"
+#include "board1.h"
 #include "stdlib.h"
 #include "math_ops.h"
 
@@ -410,6 +410,17 @@ __interrupt void INT_mySCI0_RX_ISR(void){
         chararrt[i-1] = '\0';
         tbuff = atof(chararrt);
         break;
+    case 'q':
+        msg = "PAUSE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+        SCI_writeCharArray(SCIA_BASE, (uint16_t*)msg, 48);
+        msg = "\r\n";
+        SCI_writeCharArray(SCIA_BASE, (uint16_t*)msg, 2);
+        pref = 0.0000;
+        vref = 0.0000;
+        kref = 0.0000;
+        dref = 0.0000;
+        tref = 0.0000;
+        break;
     case 's':
 
         pref = pbuff;
@@ -518,6 +529,32 @@ void main(void)
     SCI_writeCharArray(SCIA_BASE, (uint16_t*)msg, 78);
     msg = "\nIf all command array is set, Type 's' to send!!!\r\n";
     SCI_writeCharArray(SCIA_BASE, (uint16_t*)msg, 52);
+
+    msg = "Set the current position ZERO\r\n";
+    SCI_writeCharArray(SCIA_BASE, (uint16_t*)msg, 32);
+    txMsgData[0] = 0xFF;
+    txMsgData[1] = 0xFF;
+    txMsgData[2] = 0xFF;
+    txMsgData[3] = 0xFF;
+    txMsgData[4] = 0xFF;
+    txMsgData[5] = 0xFF;
+    txMsgData[6] = 0xFF;
+    txMsgData[7] = 0xFE;
+    CAN_sendMessage(CANB_BASE, TX_MSG_OBJ_ID, MSG_DATA_LENGTH_T, txMsgData);
+
+    DEVICE_DELAY_US(1000);
+
+    msg = "Enter a Motor Control mode\r\n";
+    SCI_writeCharArray(SCIA_BASE, (uint16_t*)msg, 28);
+    txMsgData[0] = 0xFF;
+    txMsgData[1] = 0xFF;
+    txMsgData[2] = 0xFF;
+    txMsgData[3] = 0xFF;
+    txMsgData[4] = 0xFF;
+    txMsgData[5] = 0xFF;
+    txMsgData[6] = 0xFF;
+    txMsgData[7] = 0xFC;
+    CAN_sendMessage(CANB_BASE, TX_MSG_OBJ_ID, MSG_DATA_LENGTH_T, txMsgData);
 
     CPUTimer_startTimer(myCPUTIMER0_BASE);
 
