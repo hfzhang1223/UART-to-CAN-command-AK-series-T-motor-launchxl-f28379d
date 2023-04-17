@@ -131,9 +131,9 @@ extern __interrupt void INT_mySCI0_TX_ISR(void);
 void mySCI0_init();
 
 //*****************************************************************************
-//
+//..
 // Board Configurations
-//
+//.
 //*****************************************************************************
 void    Board_init();
 void    CAN_init();

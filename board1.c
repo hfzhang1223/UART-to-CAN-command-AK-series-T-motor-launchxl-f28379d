@@ -34,7 +34,7 @@
 #include "board1.h"
 
 //*****************************************************************************
-//
+//..
 // Board Configurations
 // Initializes the rest of the modules.
 // Call this function in your application if you wish to do all module
